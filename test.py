@@ -45,9 +45,17 @@ df['date'] = pd.to_datetime(df['date'])
 print('After fixing lotto: Frame \n',df)
 
 df.drop(index=nan,axis=0,inplace=True)
+rest = df.reset_index()
 print('DF after drop:\n',df)
 grp = df.groupby([pd.Grouper(key="date", freq="7D",origin='2020-01-01'),'items','Dept']).agg({'qty':'sum'})
-# print(grp)
-# df.drop(index=nan,axis=0,inplace=True)
-# print(df)
-df.to_csv('test.csv')
+
+df.drop(columns=['Dept'],inplace=True)
+print(df['date'].dt.normalize())
+print('*************** GRP ******************')
+print(len(rest))
+print(rest.drop(columns=['index']))
+
+if rest['date'][0] == pd.to_datetime('2020-01-01'):
+    print('ok')
+
+    
